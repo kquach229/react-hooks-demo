@@ -3,6 +3,7 @@ import './App.css';
 import ContextProvider from './context/ContextProvider';
 
 import Header from './header';
+import useFetch from './customHooks/useFetch';
 
 function App() {
   const counterReducer = (state, action) => {
@@ -35,6 +36,9 @@ function App() {
       return num;
     }
   }
+
+  const comments = useFetch('https://jsonplaceholder.typicode.com/comments');
+  console.log(comments);
 
   return (
     // wrap app in context provider
