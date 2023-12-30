@@ -1,4 +1,4 @@
-import { useReducer } from 'react';
+import { useReducer, useRef } from 'react';
 import './App.css';
 import ContextProvider from './context/ContextProvider';
 
@@ -18,6 +18,12 @@ function App() {
     }
   };
   const [counter, dispatch] = useReducer(counterReducer, { count: 0 });
+  const resetButton = useRef();
+  const handleReset = () => {
+    dispatch({ type: 'RESET' });
+    resetButton.current.style.border = '1px solid blue';
+    resetButton.current.style.width = '500px';
+  };
   return (
     // wrap app in context provider
     <ContextProvider>
@@ -30,7 +36,9 @@ function App() {
         <button onClick={() => dispatch({ type: 'INCREMENT' })}>
           Increment
         </button>
-        <button onClick={() => dispatch({ type: 'RESET' })}>Reset</button>
+        <button ref={resetButton} onClick={() => handleReset()}>
+          Reset
+        </button>
       </div>
     </ContextProvider>
   );
