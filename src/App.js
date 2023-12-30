@@ -1,4 +1,4 @@
-import { useReducer, useRef } from 'react';
+import { useMemo, useReducer, useRef } from 'react';
 import './App.css';
 import ContextProvider from './context/ContextProvider';
 
@@ -19,16 +19,29 @@ function App() {
   };
   const [counter, dispatch] = useReducer(counterReducer, { count: 0 });
   const resetButton = useRef();
+  const memoCalculation = useMemo(() => {
+    return expensiveFunction(counter);
+  }, [counter]);
+
   const handleReset = () => {
     dispatch({ type: 'RESET' });
     resetButton.current.style.border = '1px solid blue';
     resetButton.current.style.width = '500px';
   };
+
+  function expensiveFunction(num) {
+    console.log('loop started');
+    for (let i = 0; i < 100000000; i++) {
+      return num;
+    }
+  }
+
   return (
     // wrap app in context provider
     <ContextProvider>
       <div className='App'>
         <Header />
+        <h5>{memoCalculation.count}</h5>
         <button onClick={() => dispatch({ type: 'DECREMENT' })}>
           Decrement
         </button>
